@@ -1,0 +1,6 @@
+builds:
+- id: clusterwoman
+  dir: .  # default is .
+  main: ./server.go
+  env:
+  - GOPRIVATE=github.com

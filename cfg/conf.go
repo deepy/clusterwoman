@@ -3,17 +3,25 @@ package cfg
 import (
 	"errors"
 	"gopkg.in/yaml.v2"
-	"io/ioutil"
+	"io"
 	"log"
+	"os"
 )
 
 type Conf struct {
 	Nodes map[string]string `yaml:"nodes"`
 }
 
-func (c *Conf) GetConf() (*Conf, error) {
+func (c *Conf) GetConfFile(filename string) (*Conf, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	return c.GetConf(file)
+}
 
-	yamlFile, err := ioutil.ReadFile("conf.yaml")
+func (c *Conf) GetConf(reader io.Reader) (*Conf, error) {
+	yamlFile, err := io.ReadAll(reader)
 	if err != nil {
 		log.Printf("yamlFile.Get err   #%v ", err)
 		return nil, err

@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -34,7 +35,7 @@ func TestConf_GetConf(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			writeTestFile(tt.file)
 			c := Conf{}
-			got, err := c.GetConf()
+			got, err := c.GetConf(strings.NewReader(tt.file))
 			if !reflect.DeepEqual(got, tt.want.conf) {
 				t.Errorf("GetConf() = %v, want %v", got, tt.want.conf)
 			}
